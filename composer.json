@@ -1,0 +1,9 @@
+{
+    "minimum-stability": "RC",
+    "require": {
+        "silex/silex": "1.0.*@dev"
+    },
+    "autoload": {
+        "psr-0": {"DVO": "src/"}
+    }
+}

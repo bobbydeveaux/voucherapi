@@ -10,6 +10,14 @@ class VoucherController
 {
     protected $factory;
 
+    /**
+     * VoucherController constructor
+     *
+     * @param VoucherFactory $factory The voucher factory
+     * 
+     * @return void
+     * @author
+     **/
     public function __construct(VoucherFactory $factory)
     {
         $this->factory = $factory;

@@ -36,12 +36,9 @@ $app['vouchers.controller'] = $app->share(function() use ($app) {
 
 $app->register(new Silex\Provider\ServiceControllerServiceProvider());
 
-$app->get('/vouchers.json', "vouchers.controller:indexJsonAction");
-$app->post('/vouchers.json', "vouchers.controller:createJsonAction");
-$app->put('/vouchers.json', "vouchers.controller:updateJsonAction");
-$app->delete('/vouchers.json', "vouchers.controller:deleteJsonAction");
-
-
-//var_dump($app['request']->getMethod());
+$app->get('/vouchers', "vouchers.controller:indexJsonAction");
+$app->post('/vouchers', "vouchers.controller:createJsonAction");
+$app->put('/vouchers', "vouchers.controller:updateJsonAction");
+$app->delete('/vouchers', "vouchers.controller:deleteJsonAction");
 
 return $app;

@@ -13,6 +13,9 @@ class VoucherFactory
     /**
      * VoucherFactory constructor
      *
+     * @param VoucherGateway $gateway The voucher gateway
+     * @param Cache          $cache   The cache
+     * 
      * @return void
      * @author
      **/

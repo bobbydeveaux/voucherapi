@@ -2,5 +2,6 @@
 *.lock
 
 vendor/
+build/
 
 .DS_Store

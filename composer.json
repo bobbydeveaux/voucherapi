@@ -1,5 +1,5 @@
 {
-    "minimum-stability": "RC",
+    "minimum-stability": "dev",
     "require": {
         "silex/silex": "1.0.*@dev"
     },

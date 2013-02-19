@@ -25,7 +25,6 @@ class VoucherController
 
     public function indexJsonAction()
     {
-        echo 'get';
         $vouchers = $this->factory->getVouchers();
         $vouchers = array_map(function($voucher) {
             $vc = array();
@@ -38,19 +37,13 @@ class VoucherController
 
     public function createJsonAction()
     {
-        echo 'create';
-        return new JsonResponse($this->factory->getVouchers());
     }
 
     public function updateJsonAction()
     {
-        echo 'update';
-        return new JsonResponse($this->factory->getVouchers());
     }
 
     public function deleteJsonAction()
     {
-        echo 'Delete';
-        return new JsonResponse($this->factory->getVouchers());
     }
 }

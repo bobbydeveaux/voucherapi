@@ -10,8 +10,6 @@ namespace DVO\Entity;
  **/
 class Voucher extends EntityAbstract
 {
-    protected $_data;
-
     public function __construct()
     {
         $this->_data = array(

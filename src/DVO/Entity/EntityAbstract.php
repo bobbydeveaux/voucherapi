@@ -10,6 +10,7 @@ namespace DVO\Entity;
  **/
 abstract class EntityAbstract
 {
+    protected $_data;
     /**
      * Magic function to capture getters & setters
      *

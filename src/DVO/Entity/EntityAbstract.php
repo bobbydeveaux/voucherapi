@@ -49,7 +49,7 @@ abstract class EntityAbstract
      * @return mixed
      */
     public function __get($name)
-    {   
+    {
         if (true === array_key_exists($name, $this->_data)) {
             return $this->_data[$name];
         } else {

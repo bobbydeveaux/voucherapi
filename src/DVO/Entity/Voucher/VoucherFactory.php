@@ -19,7 +19,7 @@ class VoucherFactory
      * @author
      **/
     public function __construct(VoucherGateway $gateway, Cache $cache)
-    {   
+    {
         $this->_gateway = $gateway;
         $this->_cache   = $cache;
     }

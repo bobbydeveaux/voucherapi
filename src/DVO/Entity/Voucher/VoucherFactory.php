@@ -4,7 +4,6 @@ namespace DVO\Entity\Voucher;
 
 use DVO\Cache;
 
-
 class VoucherFactory
 {
     protected $_gateway;
@@ -31,7 +30,8 @@ class VoucherFactory
      * @return void
      * @author 
      **/
-    public static function create() {
+    public static function create()
+    {
         return new \DVO\Entity\Voucher;
     }
 
@@ -43,6 +43,7 @@ class VoucherFactory
      **/
     public function getVouchers()
     {
+        /* @codingStandardsIgnoreStart */
         $vouchers = array_map(function($voucher) {
             $vc = VoucherFactory::create();
             foreach ($voucher as $key => $value) {
@@ -51,6 +52,7 @@ class VoucherFactory
 
             return $vc;
         }, $this->_gateway->getAllVouchers());
+        /* @codingStandardsIgnoreEnd */
 
         return $vouchers;
     }

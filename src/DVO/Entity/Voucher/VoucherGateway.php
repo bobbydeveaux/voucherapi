@@ -3,7 +3,7 @@
 namespace DVO\Entity\Voucher;
 
 class VoucherGateway
-{   
+{
     /**
      * Get vouchers
      *

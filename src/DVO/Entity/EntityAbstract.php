@@ -26,13 +26,13 @@ abstract class EntityAbstract
         switch ($type) {
             case 'get':
                 return $this->$variable;
-            break;
+                break;
             case 'set':
                 $this->$variable = $arguments[0];
-            break;
+                break;
             default:
                 return $this->invalid($type);
-            break;
+                break;
         }
     }
 

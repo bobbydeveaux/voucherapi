@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class VoucherController
 {
-    protected $factory;
+    protected $_factory;
 
     /**
      * VoucherController constructor
@@ -20,18 +20,20 @@ class VoucherController
      **/
     public function __construct(VoucherFactory $factory)
     {
-        $this->factory = $factory;
+        $this->_factory = $factory;
     }
 
     public function indexJsonAction()
     {
-        $vouchers = $this->factory->getVouchers();
+        $vouchers = $this->_factory->getVouchers();
+        /* @codingStandardsIgnoreStart */
         $vouchers = array_map(function($voucher) {
             $vc = array();
             $vc['code'] = $voucher->getCode();
 
             return $vc;
         }, $vouchers);
+        /* @codingStandardsIgnoreEnd */
         return new JsonResponse($vouchers);
     }
 

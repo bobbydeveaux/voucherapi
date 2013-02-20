@@ -14,7 +14,6 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         $obj->setCode('ASD123');
 
         $this->assertEquals($obj->getCode(), 'ASD123');
-
     }
 
     public function testGetData()
@@ -25,7 +24,6 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         $data = $obj->getData();
 
         $this->assertEquals(array('id' =>'', 'code' => 'ASD123'), $data);
-
     }
 
     /**

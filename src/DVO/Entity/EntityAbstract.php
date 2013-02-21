@@ -17,7 +17,7 @@ abstract class EntityAbstract
      * @param string $name      the name of the function
      * @param array  $arguments an array of arguments
      *
-     * @return void
+     * @return mixed
      */
     public function __call($name, array $arguments)
     {
@@ -63,7 +63,7 @@ abstract class EntityAbstract
      * @param string $name  the name of the var
      * @param string $value the value for the var
      *
-     * @return void
+     * @return mixed
      */
     public function __set($name, $value)
     {
@@ -77,7 +77,7 @@ abstract class EntityAbstract
     /**
      * called when invalid function is called
      *
-     * @return boolean
+     * @return \Exception
      **/
     public function invalid($type)
     {

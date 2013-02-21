@@ -7,7 +7,7 @@ class VoucherGateway
     /**
      * Get vouchers
      *
-     * @return void
+     * @return array
      * @author 
      **/
     public function getAllVouchers()

@@ -27,7 +27,7 @@ class VoucherFactory
     /**
      * Creates the Voucher
      *
-     * @return void
+     * @return \DVO\Entity\Voucher
      * @author 
      **/
     public static function create()
@@ -38,7 +38,7 @@ class VoucherFactory
     /**
      * Gets the vouchers
      *
-     * @return void
+     * @return array
      * @author 
      **/
     public function getVouchers()

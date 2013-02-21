@@ -3,5 +3,6 @@
 
 vendor/
 build/
+cache/
 
 .DS_Store

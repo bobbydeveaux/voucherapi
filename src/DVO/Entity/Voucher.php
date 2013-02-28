@@ -14,7 +14,8 @@ class Voucher extends EntityAbstract
     {
         $this->_data = array(
             'id'   => '',
-            'code' => ''
+            'code' => '',
+            'description' => ''
             );
     }
 }

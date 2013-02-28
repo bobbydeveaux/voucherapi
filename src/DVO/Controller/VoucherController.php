@@ -30,7 +30,7 @@ class VoucherController
         $vouchers = array_map(function($voucher) {
             $vc = array();
             $vc['code'] = $voucher->getCode();
-
+            $vc['description'] = $voucher->getDescription();
             return $vc;
         }, $vouchers);
         /* @codingStandardsIgnoreEnd */
@@ -39,6 +39,13 @@ class VoucherController
 
     public function createJsonAction()
     {
+        $voucher = VoucherFactory::create();
+        $voucher->code = 'KAJSD10';
+        $voucher->description = 'some code innit';
+
+        $this->_factory->getGateway()->insertVoucher($voucher);
+
+        return $this->indexJsonAction();
     }
 
     public function updateJsonAction()

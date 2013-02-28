@@ -25,6 +25,17 @@ class VoucherFactory
     }
 
     /**
+     * get the gateway!
+     *
+     * @return \DVO\Entity\Voucher\VoucherGateway
+     * @author 
+     **/
+    public function getGateway()
+    {
+        return $this->_gateway;
+    }
+
+    /**
      * Creates the Voucher
      *
      * @return \DVO\Entity\Voucher

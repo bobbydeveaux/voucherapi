@@ -1,7 +1,9 @@
 {
     "minimum-stability": "dev",
     "require": {
-        "silex/silex": "1.0.*@dev"
+        "silex/silex": "1.0.*@dev",
+        "posmena/cruftflake": "*",
+        "thobbs/phpcassa": "dev-master"
     },
     "autoload": {
         "psr-0": {"DVO": "src/"}
@@ -9,7 +11,6 @@
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
         "squizlabs/php_codesniffer": "1.*",
-        "sami/sami" : "*",
-        "devster/ubench": "1.1.*-dev"
+        "sami/sami" : "*"
     }
 }

@@ -5,6 +5,7 @@ require_once __DIR__.'/bootstrap.php';
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Davegardnerisme\CruftFlake;
 
 $app = new Application();
 $app['debug'] = true;
@@ -19,9 +20,15 @@ $app['cache'] = $app->share(function(){
     return new DVO\Cache;
 });
 
+$app['cruftflake'] = $app->share(function() {
+	$context = new \ZMQContext();
+    $socket = new \ZMQSocket($context, \ZMQ::SOCKET_REQ);
+    return new CruftFlake\CruftFlake($context, $socket);
+});
+   
 // setup the voucher gateway
-$app['vouchers.gateway'] = $app->share(function() {
-    return new DVO\Entity\Voucher\VoucherGateway;
+$app['vouchers.gateway'] = $app->share(function() use ($app){
+    return new DVO\Entity\Voucher\VoucherGateway($app['cruftflake']);
 });
 
 // setup the voucher factory

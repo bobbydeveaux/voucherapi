@@ -21,18 +21,17 @@ $app = new Application(array(
     'caching' => true,
 ));
 
-$app['cache'] = $app->share(function(){
+$app['cache'] = $app->share(function() {
     return new DVO\Cache;
 });
-$app->register(new DVO\Provider\Memcache());
 
 $app['cruftflake'] = $app->share(function() {
 	if (false === class_exists('\ZMQContext')) {
 		throw new Exception('ZeroMQ not installed');
 	}
 
-	$context = new \ZMQContext();
-    $socket = new \ZMQSocket($context, \ZMQ::SOCKET_REQ);
+    $context = new \ZMQContext();
+    $socket  = new \ZMQSocket($context, \ZMQ::SOCKET_REQ);
     return new CruftFlake\CruftFlake($context, $socket);
 });
 
@@ -51,6 +50,9 @@ $app['vouchers.controller'] = $app->share(function() use ($app) {
     return new DVO\Controller\VoucherController($app['vouchers.factory']);
 });
 
+$app->register(new DVO\Provider\MemcacheProvider(), array(
+    'caching' => $app['caching']
+));
 $app->register(new Silex\Provider\ServiceControllerServiceProvider());
 $app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
     'http_cache.cache_dir' => __DIR__.'/../cache/',

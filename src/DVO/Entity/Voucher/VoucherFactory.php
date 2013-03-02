@@ -60,7 +60,11 @@ class VoucherFactory
     public function getVouchers($voucherId)
     {
         $key      = get_called_class() . '::' . __FUNCTION__ . $voucherId;
-        $vouchers = $this->cache->get($key);
+        $vouchers = false;
+        if (true === $this->cache->enabled) {
+            $vouchers = $this->cache->get($key);
+        }
+
         if (true === empty($vouchers)) {
             $vouchers = $this->gateway->getVouchers($voucherId);
             /* @codingStandardsIgnoreStart */
@@ -79,7 +83,7 @@ class VoucherFactory
                 return $vc;
             }, array_keys($vouchers), $vouchers));
             /* @codingStandardsIgnoreEnd */
-            $this->cache->set($key, $vouchers, MEMCACHE_COMPRESSED, 3600);
+            $this->cache->set($key, $vouchers, MEMCACHE_COMPRESSED, 10);
         }
 
         return $vouchers;

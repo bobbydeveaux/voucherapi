@@ -20,7 +20,7 @@ use Silex\ServiceProviderInterface;
  * @package Cache Class
  * @author
  **/
-class Memcache implements ServiceProviderInterface
+class MemcacheProvider implements ServiceProviderInterface
 {
     /**
      * Boot.
@@ -45,15 +45,15 @@ class Memcache implements ServiceProviderInterface
     {
         /* @codingStandardsIgnoreStart */
         $app['memcache'] = $app->share(function() use ($app) {
-            $memcache = $app['cache'];
-            $servers = array(
+            $memcache          = $app['cache'];
+            $memcache->enabled = $app['caching'];
+            $servers           = array(
                 array('127.0.0.1', 11211),
             );
 
             array_walk($servers, function($server) use ($memcache) {
                 $memcache->addServer($server[0], $server[1]);
             });
-
             return $memcache;
         });
         /* @codingStandardsIgnoreEnd */

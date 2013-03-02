@@ -16,18 +16,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Davegardnerisme\CruftFlake;
 
-$app = new Application();
-$app['debug'] = false;
+$app = new Application(array(
+    'debug'   => true,
+    'caching' => true,
+));
 
-// example route - kinda obvious what this does :)
-$app->get('/hello/{name}', function ($name) use ($app) {
-    return 'Hello '.$app->escape($name);
-});
-
-// setup the app cache
 $app['cache'] = $app->share(function(){
     return new DVO\Cache;
 });
+$app->register(new DVO\Provider\Memcache());
 
 $app['cruftflake'] = $app->share(function() {
 	if (false === class_exists('\ZMQContext')) {
@@ -46,7 +43,7 @@ $app['vouchers.gateway'] = $app->share(function() use ($app){
 
 // setup the voucher factory
 $app['vouchers.factory'] = $app->share(function() use($app) {
-    return new DVO\Entity\Voucher\VoucherFactory($app['vouchers.gateway'], $app['cache']);
+    return new DVO\Entity\Voucher\VoucherFactory($app['vouchers.gateway'], $app['memcache']);
 });
 
 // setup the voucher controller

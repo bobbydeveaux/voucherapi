@@ -29,11 +29,21 @@ class VoucherGateway
      */
     public function __construct(CruftFlake\CruftFlake $cruftflake)
     {
-        $this->cf            = $cruftflake;
-        $this->pool          = new ConnectionPool('DVO');
-        $this->column_family = new ColumnFamily($this->pool, 'Vouchers');
-
+        $this->cf = $cruftflake;
         $this->cf->setTimeout(500);
+    }
+
+    /**
+     * Get the connection, no need to do it on construct.
+     *
+     * @return void
+     */
+    protected function getConnection()
+    {
+        if (true === empty($this->pool)) {
+            $this->pool          = new ConnectionPool('DVO');
+            $this->column_family = new ColumnFamily($this->pool, 'Vouchers');
+        }
     }
 
     /**
@@ -45,6 +55,7 @@ class VoucherGateway
      */
     public function getVouchers($voucherId = null)
     {
+        $this->getConnection();
         if (false === empty($voucherId)) {
             try {
                 $vouchers[$voucherId] = $this->column_family->get($voucherId);

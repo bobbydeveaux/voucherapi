@@ -59,23 +59,28 @@ class VoucherFactory
      */
     public function getVouchers($voucherId)
     {
-        $vouchers = $this->gateway->getVouchers($voucherId);
-        /* @codingStandardsIgnoreStart */
-        $vouchers = array_filter(array_map(function($vid, $voucher) use ($voucherId) {
-            // make sure that we only return the voucher we want.
-            if (false === empty($voucherId) && $voucherId !== $vid) {
-                return null;
-            }
+        $key      = get_called_class() . '::' . __FUNCTION__ . $voucherId;
+        $vouchers = $this->cache->get($key);
+        if (true === empty($vouchers)) {
+            $vouchers = $this->gateway->getVouchers($voucherId);
+            /* @codingStandardsIgnoreStart */
+            $vouchers = array_filter(array_map(function($vid, $voucher) use ($voucherId) {
+                // make sure that we only return the voucher we want.
+                if (false === empty($voucherId) && $voucherId !== $vid) {
+                    return null;
+                }
 
-            $vc = $this->create();
-            foreach ($voucher as $key => $value) {
-                $vc->$key = $value;
-            }
+                $vc = $this->create();
+                foreach ($voucher as $key => $value) {
+                    $vc->$key = $value;
+                }
 
-            $vc->id = $vid;
-            return $vc;
-        }, array_keys($vouchers), $vouchers));
-        /* @codingStandardsIgnoreEnd */
+                $vc->id = $vid;
+                return $vc;
+            }, array_keys($vouchers), $vouchers));
+            /* @codingStandardsIgnoreEnd */
+            $this->cache->set($key, $vouchers, MEMCACHE_COMPRESSED, 3600);
+        }
 
         return $vouchers;
     }

@@ -45,8 +45,12 @@ if ('cli' === php_sapi_name() && count($argv) > 0) {
     $request = Request::create($path, $method, $arr);
     $app->run($request);
 } else {
+    if (true === $app['caching']) {
+        $app['http_cache']->run();
+        exit;
+    }
+
     $app->run();
-    //$app['http_cache']->run();
 }
 
 if (true === $xhprof) {

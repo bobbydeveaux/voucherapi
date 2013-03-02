@@ -1,21 +1,30 @@
 <?php
 
+/**
+ * This file is part of the DVO package.
+ *
+ * (c) Bobby DeVeaux <me@bobbyjason.co.uk> / t: @bobbyjason
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace DVO\Entity;
 
 /**
- * Abstract Entity
+ * Abstract Entity.
  *
  * @package default
- * @author 
+ * @author
  **/
 abstract class EntityAbstract
 {
-    protected $_data;
+    protected $data;
     /**
-     * Magic function to capture getters & setters
+     * Magic function to capture getters & setters.
      *
-     * @param string $name      the name of the function
-     * @param array  $arguments an array of arguments
+     * @param string $name      The name of the function.
+     * @param array  $arguments An array of arguments.
      *
      * @return mixed
      */
@@ -36,49 +45,57 @@ abstract class EntityAbstract
         }
     }
 
+    /**
+     * Get the data.
+     *
+     * @return mixed
+     */
     public function getData()
     {
-        return $this->_data;
+        return $this->data;
     }
 
     /**
-     * Magic function to capture getters
+     * Magic function to capture getters.
      *
-     * @param string $name name of the variable
+     * @param string $name Name of the variable.
      *
      * @return mixed
      */
     public function __get($name)
     {
-        if (true === array_key_exists($name, $this->_data)) {
-            return $this->_data[$name];
+        if (true === array_key_exists($name, $this->data)) {
+            return $this->data[$name];
         } else {
             throw new Exception('Param ' . $name . ' not found in ' . get_called_class());
         }
     }
 
     /**
-     * Magic function to capture setters
+     * Magic function to capture setters.
      *
-     * @param string $name  the name of the var
-     * @param string $value the value for the var
+     * @param string $name  The name of the var.
+     * @param string $value The value for the var.
      *
      * @return mixed
      */
     public function __set($name, $value)
     {
-        if (true === array_key_exists($name, $this->_data)) {
-            $this->_data[$name] = $value;
+        if (true === array_key_exists($name, $this->data)) {
+            $this->data[$name] = $value;
         } else {
             throw new Exception('Param ' . $name . ' not found in ' . get_called_class());
         }
     }
 
     /**
-     * called when invalid function is called
+     * Called when invalid function is called.
      *
-     * @return \Exception
-     **/
+     * @param string $type The requested method.
+     *
+     * @throws Exception Throws an exception.
+     * @return void
+     */
     public function invalid($type)
     {
         throw new Exception('Error: Invalid handler in ' . get_called_class());

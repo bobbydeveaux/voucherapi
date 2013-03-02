@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the DVO package.
+ *
+ * (c) Bobby DeVeaux <me@bobbyjason.co.uk> / t: @bobbyjason
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace DVO\Entity\Voucher;
 
 use phpcassa\ColumnFamily;
@@ -9,42 +18,74 @@ use Davegardnerisme\Cruftflake;
 
 class VoucherGateway
 {
-    protected $_cf;
-    protected $_pool;
-    protected $_column_family;
+    protected $cf;
+    protected $pool;
+    protected $column_family;
 
+    /**
+     * Setup the VoucherGatway.
+     *
+     * @param CruftFlake\CruftFlake $cruftflake Instance of cruftflake.
+     */
     public function __construct(CruftFlake\CruftFlake $cruftflake)
     {
-        $this->_cf            = $cruftflake;
-        $this->_pool          = new ConnectionPool('DVO');
-        $this->_column_family = new ColumnFamily($this->_pool, 'Vouchers');
+        $this->cf            = $cruftflake;
+        $this->pool          = new ConnectionPool('DVO');
+        $this->column_family = new ColumnFamily($this->pool, 'Vouchers');
+
+        $this->cf->setTimeout(500);
     }
 
     /**
-     * Get vouchers
+     * Get vouchers.
+     *
+     * @param integer $voucherId The voucher ID.
      *
      * @return array
-     * @author 
-     **/
-    public function getAllVouchers()
+     */
+    public function getVouchers($voucherId = null)
     {
-        $vouchers = iterator_to_array($this->_column_family->get_range(), false);
-    
+        if (false === empty($voucherId)) {
+            try {
+                $vouchers[$voucherId] = $this->column_family->get($voucherId);
+            } catch (\Exception $ex) {
+                // nothing for now, just return an empty array
+                $vouchers = array();
+            }
+
+        } else {
+            try {
+                $vouchers = iterator_to_array($this->column_family->get_range(), true);
+            } catch (\Exception $ex) {
+                // nothing for now, just return an empty array
+                $vouchers = array();
+            }
+        }
+
         return $vouchers;
     }
 
     /**
-     * insert voucher
+     * Insert voucher.
      *
-     * @return void
-     * @author 
-     **/
+     * @param \DVO\Entity\Voucher $voucher An instance of a voucher.
+     *
+     * @return boolean
+     */
     public function insertVoucher(\DVO\Entity\Voucher $voucher)
     {
-        $val = $this->_cf->generateId();
-        $this->_column_family->insert($val, array(
-                                        'code'        => $voucher->getCode(),
-                                        'description' => $voucher->getDescription()
-        ));
+        $id = $this->cf->generateId();
+        if ($id === false) {
+            return $id;
+        }
+
+        $this->column_family->insert(
+            $id,
+            array(
+                'code'        => $voucher->getCode(),
+                'description' => $voucher->getDescription())
+        );
+
+        return true;
     }
 }

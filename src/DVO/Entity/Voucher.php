@@ -25,9 +25,20 @@ class Voucher extends EntityAbstract
     public function __construct()
     {
         $this->data = array(
-            'id'   => '',
-            'code' => '',
-            'description' => ''
+            'id'                => '',
+            'title'             => '',
+            'description'       => '',
+            'merchant'          => '',
+            'merchant_logo_url' => '',
+            'voucher_code'      => '',
+            'merchant'          => '',
+            'start_date'        => '',
+            'expiry_date'       => '',
+            'deep_link'         => '',
+            'merchant_url'      => '',
+            'category_id'       => '',
+            'category'          => '',
+            'deep_link'         => '',
             );
     }
 
@@ -46,9 +57,9 @@ class Voucher extends EntityAbstract
      *
      * @return string
      */
-    public function getCode()
+    public function getVoucherCode()
     {
-        return $this->data['code'];
+        return $this->data['voucher_code'];
     }
 
     /**

@@ -20,19 +20,34 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     public function testEntityMagicFuncs()
     {
         $obj = new \DVO\Entity\Voucher;
-        $obj->setCode('ASD123');
+        $obj->setVoucher_Code('ASD123');
 
-        $this->assertEquals($obj->getCode(), 'ASD123');
+        $this->assertEquals($obj->getVoucher_Code(), 'ASD123');
     }
 
     public function testGetData()
     {
         $obj = new \DVO\Entity\Voucher;
-        $obj->setCode('ASD123');
+        $obj->setVoucher_Code('ASD123');
 
         $data = $obj->getData();
 
-        $this->assertEquals(array('id' =>'', 'code' => 'ASD123', 'description' => ''), $data);
+        $this->assertEquals(array(
+            'id' =>'',
+            'voucher_code' => 'ASD123',
+            'description' => '',
+            'title'             => '',
+            'merchant'          => '',
+            'merchant_logo_url' => '',
+            'merchant'          => '',
+            'start_date'        => '',
+            'expiry_date'       => '',
+            'deep_link'         => '',
+            'merchant_url'      => '',
+            'category_id'       => '',
+            'category'          => '',
+            'deep_link'         => '',
+        ), $data);
     }
 
     /**

@@ -46,11 +46,11 @@ class VoucherController
         $vouchers  = $this->factory->getVouchers($voucherId);
         /* @codingStandardsIgnoreStart */
         $vouchers = array_map(function($voucher) use ($request) {
-            $vc                    = array();
+            $vc                           = array();
             $vc['_links']['self']['href'] = $request->getPathInfo() . '/' . $voucher->getId();
-            $vc['id']          = $voucher->getId();
-            $vc['code']        = $voucher->getCode();
-            $vc['description'] = $voucher->getDescription();
+            $vc['id']                     = $voucher->getId();
+            $vc['voucher_code']           = $voucher->getVoucherCode();
+            $vc['description']            = $voucher->getDescription();
             return $vc;
         }, $vouchers);
         /* @codingStandardsIgnoreEnd */
@@ -72,49 +72,18 @@ class VoucherController
      */
     public function createJsonAction(Request $request, Application $app)
     {
-        $code = $request->request->get('code');
-        if (true === empty($code)) {
-            return $this->errorAction($request, $app);
-        }
+        $data    = json_decode($request->getContent(), true);
+        $voucher = $this->factory->create();
 
-        $description = $request->request->get('description');
-        if (true === empty($description)) {
-            return $this->errorAction($request, $app);
+        foreach ($data as $key => $value) {
+            $voucher->$key = $value;
         }
-
-        $voucher              = $this->factory->create();
-        $voucher->code        = $code;
-        $voucher->description = $description;
 
         if (false === $this->factory->getGateway()->insertVoucher($voucher)) {
             return $this->errorAction($request, $app);
         }
 
         return $this->indexJsonAction($request, $app);
-    }
-
-    /**
-     * Handles the HTTP PUT.
-     *
-     * @param Request     $request The request.
-     * @param Application $app     The app.
-     *
-     * @return void
-     */
-    public function updateJsonAction(Request $request, Application $app)
-    {
-    }
-
-    /**
-     * Handles the HTTP DELETE.
-     *
-     * @param Request     $request The request.
-     * @param Application $app     The app.
-     *
-     * @return void
-     */
-    public function deleteJsonAction(Request $request, Application $app)
-    {
     }
 
     /**

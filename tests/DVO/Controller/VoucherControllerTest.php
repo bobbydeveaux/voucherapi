@@ -27,8 +27,8 @@ class VoucherControllerTest extends \PHPUnit_Framework_TestCase
     public function providerGetAction()
     {
     	return array(
-    			array(array(array('code' => '12345'), array('code' => '54321')), '{"_links":{"self":{"href":"\/vouchers"}},"_embedded":{"vouchers":[{"_links":{"self":{"href":"\/vouchers\/"}},"id":"","code":"12345","description":""},{"_links":{"self":{"href":"\/vouchers\/"}},"id":"","code":"54321","description":""}]},"count":2}'),
-    			array(array(array('code' => 'asdfg'), array('code' => 'gfdsa')), '{"_links":{"self":{"href":"\/vouchers"}},"_embedded":{"vouchers":[{"_links":{"self":{"href":"\/vouchers\/"}},"id":"","code":"asdfg","description":""},{"_links":{"self":{"href":"\/vouchers\/"}},"id":"","code":"gfdsa","description":""}]},"count":2}'),
+    			array(array(array('voucher_code' => '12345'), array('voucher_code' => '54321')), '{"_links":{"self":{"href":"\/vouchers"}},"_embedded":{"vouchers":[{"_links":{"self":{"href":"\/vouchers\/"}},"id":"","voucher_code":"12345","description":""},{"_links":{"self":{"href":"\/vouchers\/"}},"id":"","voucher_code":"54321","description":""}]},"count":2}'),
+    			array(array(array('voucher_code' => 'asdfg'), array('voucher_code' => 'gfdsa')), '{"_links":{"self":{"href":"\/vouchers"}},"_embedded":{"vouchers":[{"_links":{"self":{"href":"\/vouchers\/"}},"id":"","voucher_code":"asdfg","description":""},{"_links":{"self":{"href":"\/vouchers\/"}},"id":"","voucher_code":"gfdsa","description":""}]},"count":2}'),
     		);
     }
 
@@ -55,23 +55,23 @@ class VoucherControllerTest extends \PHPUnit_Framework_TestCase
 
     	$vf = $this->getMock('\DVO\Entity\Voucher\VoucherFactory', array('getVouchers'), array(), '', false);
 
-    	$voucher = $this->getMock('\DVO\Entity\Voucher', array('getId', 'getCode'));
+    	$voucher = $this->getMock('\DVO\Entity\Voucher', array('getId', 'getVoucherCode'));
     	$voucher->expects($this->any())
     	        ->method('getId')
     	        ->will($this->returnValue(''));
 
     	$voucher->expects($this->once())
-    	        ->method('getCode')
-    	        ->will($this->returnValue($array[0]['code']));
+    	        ->method('getVoucherCode')
+    	        ->will($this->returnValue($array[0]['voucher_code']));
 
-    	$voucher2 = $this->getMock('\DVO\Entity\Voucher', array('getId', 'getCode'));
+    	$voucher2 = $this->getMock('\DVO\Entity\Voucher', array('getId', 'getVoucherCode'));
     	$voucher2->expects($this->any())
     	         ->method('getId')
     	         ->will($this->returnValue(''));
 
     	$voucher2->expects($this->once())
-    	         ->method('getCode')
-    	         ->will($this->returnValue($array[1]['code']));
+    	         ->method('getVoucherCode')
+    	         ->will($this->returnValue($array[1]['voucher_code']));
 
     	$vf->expects($this->once())
     	   ->method('getVouchers')

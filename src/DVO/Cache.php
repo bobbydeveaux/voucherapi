@@ -17,6 +17,6 @@ namespace DVO;
  * @package Cache Class
  * @author
  **/
-class Cache extends \Memcache
+class Cache extends \Memcached
 {
 }

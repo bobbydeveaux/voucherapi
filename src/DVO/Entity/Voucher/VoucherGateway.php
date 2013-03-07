@@ -90,10 +90,11 @@ class VoucherGateway
             return $id;
         }
 
+        $this->getConnection();
         $this->column_family->insert(
             $id,
             array(
-                'code'        => $voucher->getCode(),
+                'voucher_code'        => $voucher->getVoucherCode(),
                 'description' => $voucher->getDescription())
         );
 

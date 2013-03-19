@@ -2,7 +2,7 @@
     "minimum-stability": "dev",
     "require": {
         "silex/silex": "1.0.*@dev",
-        "posmena/cruftflake": "*",
+        "dvomedia/cruftflake": "*",
         "thobbs/phpcassa": "dev-master"
     },
     "autoload": {

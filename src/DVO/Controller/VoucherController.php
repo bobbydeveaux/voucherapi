@@ -51,7 +51,7 @@ class VoucherController
             $vc['id']                     = $voucher->getId();
             $vc['voucher_code']           = $voucher->getVoucherCode();
             $vc['description']            = $voucher->getDescription();
-            if (false === empty($voucherId)) {
+            if (true === empty($voucherId)) {
                 $vc['_links']['self']['href'] .= '/' . $voucher->getId();
             }
             return $vc;

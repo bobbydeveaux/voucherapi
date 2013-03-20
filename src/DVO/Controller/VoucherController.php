@@ -62,7 +62,7 @@ class VoucherController
         $response['_embedded']['vouchers']  = $vouchers;
         $response['count']                  = count($vouchers);
 
-        return new JsonResponse($response, 200, array('Cache-Control' => 's-maxage=10, public'));
+        return new JsonResponse($response, 200, array('Cache-Control' => 's-maxage=3600, public'));
     }
 
     /**

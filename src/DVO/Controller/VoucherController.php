@@ -62,7 +62,16 @@ class VoucherController
         $response['_embedded']['vouchers']  = $vouchers;
         $response['count']                  = count($vouchers);
 
-        return new JsonResponse($response, 200, array('Cache-Control' => 's-maxage=3600, public'));
+        return new JsonResponse(
+            $response,
+            200,
+            array(
+                'ETag'          => 'PUB' . time(),
+                'Last-Modified' => gmdate("D, d M Y H:i:s", time()) . " GMT",
+                'Cache-Control' => 'maxage=3600, s-maxage=3600, public',
+                'Expires'       => time()+3600
+            )
+        );
     }
 
     /**

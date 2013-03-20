@@ -52,7 +52,7 @@ class VoucherController
             $vc['voucher_code']           = $voucher->getVoucherCode();
             $vc['description']            = $voucher->getDescription();
             if (false === empty($voucherId)) {
-                $vc['_links']['self']['href'] . '/' . $voucher->getId();
+                $vc['_links']['self']['href'] .= '/' . $voucher->getId();
             }
             return $vc;
         }, $vouchers);
@@ -82,9 +82,12 @@ class VoucherController
             $voucher->$key = $value;
         }
 
-        if (false === $this->factory->getGateway()->insertVoucher($voucher)) {
+        if (false === $id = $this->factory->getGateway()->insertVoucher($voucher)) {
             return $this->errorAction($request, $app);
         }
+
+        $request->attributes->set('id', $id);
+        $voucherId = (int) $request->attributes->get('id');
 
         return $this->indexJsonAction($request, $app);
     }

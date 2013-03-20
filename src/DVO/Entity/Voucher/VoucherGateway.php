@@ -14,6 +14,10 @@ namespace DVO\Entity\Voucher;
 use phpcassa\ColumnFamily;
 use phpcassa\ColumnSlice;
 use phpcassa\Connection\ConnectionPool;
+use phpcassa\SystemManager;
+use phpcassa\Index\IndexExpression;
+use phpcassa\Index\IndexClause;
+use phpcassa\Schema\DataType\UTF8Type;
 use Davegardnerisme\Cruftflake;
 
 class VoucherGateway
@@ -85,19 +89,32 @@ class VoucherGateway
      */
     public function insertVoucher(\DVO\Entity\Voucher $voucher)
     {
-        $id = $this->cf->generateId();
-        if ($id === false) {
-            return $id;
+        $id = false;
+        $this->getConnection();
+
+        // insert is also an update (upsert), so we need to check to see if it exists
+        $index_exp    = new IndexExpression('voucher_code', $voucher->getVoucherCode());
+        $index_clause = new IndexClause(array($index_exp));
+        $rows         = iterator_to_array($this->column_family->get_indexed_slices($index_clause));
+
+        if (count($rows) > 0) {
+            $id = key($rows);
         }
 
-        $this->getConnection();
+        if ($id === false) {
+            $id = $this->cf->generateId();
+            if ($id === false) {
+                return $id;
+            }
+        }
+
         $this->column_family->insert(
             $id,
             array(
-                'voucher_code'        => $voucher->getVoucherCode(),
-                'description' => $voucher->getDescription())
+                'voucher_code' => $voucher->getVoucherCode(),
+                'description'  => $voucher->getDescription())
         );
 
-        return true;
+        return $id;
     }
 }

@@ -45,12 +45,15 @@ class VoucherController
         $voucherId = (int) $request->attributes->get('id');
         $vouchers  = $this->factory->getVouchers($voucherId);
         /* @codingStandardsIgnoreStart */
-        $vouchers = array_map(function($voucher) use ($request) {
+        $vouchers = array_map(function($voucher) use ($request, $voucherId) {
             $vc                           = array();
-            $vc['_links']['self']['href'] = $request->getPathInfo() . '/' . $voucher->getId();
+            $vc['_links']['self']['href'] = $request->getPathInfo();
             $vc['id']                     = $voucher->getId();
             $vc['voucher_code']           = $voucher->getVoucherCode();
             $vc['description']            = $voucher->getDescription();
+            if (false === empty($voucherId)) {
+                $vc['_links']['self']['href'] . '/' . $voucher->getId();
+            }
             return $vc;
         }, $vouchers);
         /* @codingStandardsIgnoreEnd */

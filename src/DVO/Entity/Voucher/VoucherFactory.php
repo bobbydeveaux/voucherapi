@@ -83,7 +83,7 @@ class VoucherFactory
                 return $vc;
             }, array_keys($vouchers), $vouchers));
             /* @codingStandardsIgnoreEnd */
-            $this->cache->set($key, $vouchers, MEMCACHE_COMPRESSED, 10);
+            $this->cache->set($key, $vouchers, 10);
         }
 
         return $vouchers;

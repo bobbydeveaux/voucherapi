@@ -126,6 +126,12 @@ class VoucherGateway
 
             $counter = 0;
             try {
+                $this->column_family_counter->insert(
+                    'vouchers',
+                    array(
+                        'dummy' => '-'
+                    )
+                );
                 $counter = $this->column_family_counter->get('vouchers')['counter'];
             } catch (Exception $ex) {
                 // log it

@@ -25,6 +25,7 @@ class VoucherGateway
     protected $cf;
     protected $pool;
     protected $column_family;
+    protected $column_family_counter;
 
     /**
      * Setup the VoucherGatway.
@@ -45,8 +46,9 @@ class VoucherGateway
     protected function getConnection()
     {
         if (true === empty($this->pool)) {
-            $this->pool          = new ConnectionPool('DVO');
-            $this->column_family = new ColumnFamily($this->pool, 'Vouchers');
+            $this->pool                  = new ConnectionPool('DVO');
+            $this->column_family         = new ColumnFamily($this->pool, 'Vouchers');
+            $this->column_family_counter = new ColumnFamily($this->pool, 'Counters');
         }
     }
 
@@ -89,7 +91,8 @@ class VoucherGateway
      */
     public function insertVoucher(\DVO\Entity\Voucher $voucher)
     {
-        $id = false;
+        $id        = false;
+        $increment = false;
         $this->getConnection();
 
         // insert is also an update (upsert), so we need to check to see if it exists
@@ -101,19 +104,47 @@ class VoucherGateway
             $id = key($rows);
         }
 
+        // new voucher, get new ID.
         if ($id === false) {
             $id = $this->cf->generateId();
             if ($id === false) {
                 return $id;
             }
+
+            $increment = true;
         }
 
-        $this->column_family->insert(
-            $id,
-            array(
-                'voucher_code' => $voucher->getVoucherCode(),
-                'description'  => $voucher->getDescription())
-        );
+
+        // horrible try catches as phpcassa seems to throw them all over the shop.
+        try {
+            $this->column_family->insert(
+                $id,
+                array(
+                    'voucher_code' => $voucher->getVoucherCode(),
+                    'description'  => $voucher->getDescription())
+            );
+
+            $counter = 0;
+            try {
+                $counter = $this->column_family_counter->get('vouchers')['counter'];
+            } catch (Exception $ex) {
+                // log it
+            }
+
+            // only increment if it's a new voucher
+            if (true === $increment) {
+                $this->column_family_counter->insert(
+                    'vouchers',
+                    array(
+                        'counter' => ++$counter
+                    )
+                );
+            }
+
+        } catch (Exception $ex) {
+            // log this shizzle
+            return false;
+        }
 
         return $id;
     }

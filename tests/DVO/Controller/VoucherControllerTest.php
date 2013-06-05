@@ -27,8 +27,8 @@ class VoucherControllerTest extends \PHPUnit_Framework_TestCase
     public function providerGetAction()
     {
     	return array(
-    			array(array(array('voucher_code' => '12345'), array('voucher_code' => '54321')), '{"_links":{"self":{"href":"\/vouchers"}},"_embedded":{"vouchers":[{"_links":{"self":{"href":"\/vouchers"}},"id":"","voucher_code":"12345","description":""},{"_links":{"self":{"href":"\/vouchers"}},"id":"","voucher_code":"54321","description":""}]},"count":2}'),
-    			array(array(array('voucher_code' => 'asdfg'), array('voucher_code' => 'gfdsa')), '{"_links":{"self":{"href":"\/vouchers"}},"_embedded":{"vouchers":[{"_links":{"self":{"href":"\/vouchers"}},"id":"","voucher_code":"asdfg","description":""},{"_links":{"self":{"href":"\/vouchers"}},"id":"","voucher_code":"gfdsa","description":""}]},"count":2}'),
+    			array(array(array('voucher_code' => '12345'), array('voucher_code' => '54321')), '{"_links":{"self":{"href":"\/vouchers"}},"_embedded":{"vouchers":[{"_links":{"self":{"href":"\/vouchers\/"}},"id":"","voucher_code":"12345","description":""},{"_links":{"self":{"href":"\/vouchers\/"}},"id":"","voucher_code":"54321","description":""}]},"count":2}'),
+    			array(array(array('voucher_code' => 'asdfg'), array('voucher_code' => 'gfdsa')), '{"_links":{"self":{"href":"\/vouchers"}},"_embedded":{"vouchers":[{"_links":{"self":{"href":"\/vouchers\/"}},"id":"","voucher_code":"asdfg","description":""},{"_links":{"self":{"href":"\/vouchers\/"}},"id":"","voucher_code":"gfdsa","description":""}]},"count":2}'),
     		);
     }
 
